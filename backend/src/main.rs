@@ -1,4 +1,4 @@
-// use backend::views::*;
+use backend::views::*;
 use backend::connection::make_pool;
 use actix_web::{web, App, HttpServer, http::header};
 use actix_cors::Cors;
