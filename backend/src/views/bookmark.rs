@@ -4,6 +4,8 @@ use crate::connection::DbPool;
 use crate::models::bookmark::Bookmark;
 use crate::views::response::Response;
 
+// TODO: get `user_id` from HTTP headers
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BookmarkJsonBody {

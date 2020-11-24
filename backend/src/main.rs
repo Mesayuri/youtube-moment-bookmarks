@@ -1,18 +1,25 @@
-use backend::views::*;
-use backend::connection::make_pool;
 use actix_web::{web, App, HttpServer, http::header};
 use actix_cors::Cors;
+use dotenv::dotenv;
+use std::env;
+use backend::views::{bookmark::*, tag::*};
+use backend::connection::make_pool;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let pool = make_pool();
 
+    dotenv().ok();
+
     let app = move || {
         App::new()
             .wrap(
                 Cors::default()
-                    .allowed_origin("http://192.168.11.18:3000")
-                    .allowed_origin("http://localhost:3000")
+                    .allowed_origin(
+                        env::var("FRONTEND_URL")
+                        .expect("FRONTEND_URL must be set")
+                        .as_str()
+                    )
                     .allowed_methods(vec!["GET", "POST"])
                     .allowed_header(header::CONTENT_TYPE)
                     .supports_credentials()
@@ -20,11 +27,20 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/")
                     .data(pool.clone())
+                    .service(create_bookmark)
+                    .service(create_tag)
+                    .service(update_bookmark)
+                    .service(update_tag)
+                    .service(get_tags)
+                    .service(get_bookmarks_from_tags)
             )
     };
 
     HttpServer::new(app)
-    .bind("127.0.0.1:8000")?
+    .bind(
+        env::var("BACKEND_URL")
+        .expect("BACKEND_URL must be set")
+    )?
     .run()
     .await
 }
