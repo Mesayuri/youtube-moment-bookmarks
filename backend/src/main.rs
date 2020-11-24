@@ -33,6 +33,7 @@ async fn main() -> std::io::Result<()> {
                     .service(update_tag)
                     .service(get_tags)
                     .service(get_bookmarks_from_tags)
+                    .service(get_all_bookmarks)
             )
     };
 

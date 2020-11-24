@@ -10,6 +10,7 @@ use crate::views::response::Response;
 #[serde(rename_all = "camelCase")]
 pub struct BookmarkJsonBody {
     id: i32,
+    video_id: String,
     start_time: i32,
     end_time: i32,
     title: String,
@@ -93,11 +94,24 @@ pub async fn get_bookmarks_from_tags(
             |tag_id_str| tag_id_str.parse::<i32>().ok()
         ).collect();
 
-    let result = if tag_id.len() != 0 {
-        Bookmark::retrieve_from_tags(&conn, user_id, tag_id)
-    } else {
-        Bookmark::retrieve_all(&conn, user_id)
-    };
+    let result = Bookmark::retrieve_from_tags(&conn, user_id, tag_id);
+
+    match result {
+        Ok(contents) => web::Json(contents),
+        Err(_) => panic!("Failed"),
+    }
+}
+
+#[get("/bookmark")]
+pub async fn get_all_bookmarks(
+    pool: web::Data<DbPool>
+) -> impl Responder {
+    let user_id = String::from("0");
+    
+    let conn = pool.get()
+        .expect("Failed to get DB connection from pool.");
+    
+    let result = Bookmark::retrieve_all(&conn, user_id);
 
     match result {
         Ok(contents) => web::Json(contents),
