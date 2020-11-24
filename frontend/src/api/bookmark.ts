@@ -13,11 +13,23 @@ export type Bookmark = {
   tagIdList: number[],
 };
 
-export type NewMoment = {
+export type NewBookmark = {
   videoId: string,
   startTime: number,
   endTime: number,
   title: string,
   notes: string,
   tagIdList: number[],
+};
+
+export const fetchBookmarks = async (tagIdList: number[]) => {
+  const endpoint = (
+    tagIdList.length > 0
+    ? `${backend_url}/tag/${tagIdList.join(' ')}`
+    : `${backend_url}/bookmark`
+  );
+
+  const response = await fetch(endpoint);
+  const data = await response.json();
+  return data;
 };
