@@ -1,10 +1,10 @@
 use diesel::Queryable;
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use crate::schema::{bookmarks};
 
-#[derive(Queryable, Deserialize, Serialize)]
+#[derive(Queryable, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Bookmark {
     pub id: i32,
@@ -17,9 +17,8 @@ pub struct Bookmark {
     pub tag_id_list: Vec<i32>,
 }
 
-#[derive(Insertable, Deserialize, Serialize)]
+#[derive(Insertable)]
 #[table_name="bookmarks"]
-#[serde(rename_all = "camelCase")]
 pub struct NewBookmark {
     pub user_id: String,
     pub video_id: String,

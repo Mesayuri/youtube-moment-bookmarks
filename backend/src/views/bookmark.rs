@@ -1,17 +1,42 @@
 use actix_web::{get, post, web, Responder};
+use serde::Deserialize;
 use crate::connection::DbPool;
-use crate::models::bookmark::{Bookmark, NewBookmark};
+use crate::models::bookmark::Bookmark;
 use crate::views::response::Response;
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BookmarkJsonBody {
+    id: i32,
+    start_time: i32,
+    end_time: i32,
+    title: String,
+    notes: String,
+    tag_id_list: Vec<i32>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct NewBookmarkJsonBody {
+    video_id: String,
+    start_time: i32,
+    end_time: i32,
+    title: String,
+    notes: String,
+    tag_id_list: Vec<i32>,
+}
 
 #[post("/create/bookmark")]
 pub async fn create_bookmark(
-    pool: web::Data<DbPool>, info: web::Json<NewBookmark>
+    pool: web::Data<DbPool>, info: web::Json<NewBookmarkJsonBody>
 ) -> impl Responder {
+    let user_id = String::from("0");
+
     let conn = pool.get()
         .expect("Failed to get DB connection from pool.");
     let result = Bookmark::insert(
         &conn,
-        info.user_id.clone(),
+        user_id,
         info.video_id.clone(),
         info.start_time.clone(),
         info.end_time.clone(),
@@ -28,14 +53,16 @@ pub async fn create_bookmark(
 
 #[post("/update/bookmark")]
 pub async fn update_bookmark(
-    pool: web::Data<DbPool>, info: web::Json<Bookmark>
+    pool: web::Data<DbPool>, info: web::Json<BookmarkJsonBody>
 ) -> impl Responder {
+    let user_id = String::from("0");
+
     let conn = pool.get()
         .expect("Failed to get DB connection from pool.");
     let result = Bookmark::update(
         &conn,
         info.id.clone(),
-        info.user_id.clone(),
+        user_id,
         info.start_time.clone(),
         info.end_time.clone(),
         info.title.clone(),
@@ -54,7 +81,7 @@ pub async fn get_bookmarks_from_tags(
     pool: web::Data<DbPool>, web::Path(tag_id_list): web::Path<String>
 ) -> impl Responder {
     let user_id = String::from("0");
-
+    
     let conn = pool.get()
         .expect("Failed to get DB connection from pool.");
     
