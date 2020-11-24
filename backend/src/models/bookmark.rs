@@ -103,6 +103,18 @@ impl Bookmark {
     //         .load::<Self>(conn)
     // }
 
+    pub fn retrieve_all(
+        conn: &PgConnection,
+        user_id: String,
+    ) -> QueryResult<Vec<Self>> {
+        bookmarks::table
+            .into_boxed()
+            .filter(bookmarks::user_id.eq(user_id))
+            .order((bookmarks::video_id.asc(), bookmarks::start_time.asc()))
+            .limit(1000)
+            .load::<Self>(conn)
+    }
+
     pub fn retrieve_from_tags(
         conn: &PgConnection,
         user_id: String,

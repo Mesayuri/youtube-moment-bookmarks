@@ -6,7 +6,7 @@ table! {
         start_time -> Int4,
         end_time -> Int4,
         title -> Varchar,
-        notes -> Text,
+        notes -> Varchar,
         tag_id_list -> Array<Int4>,
     }
 }
