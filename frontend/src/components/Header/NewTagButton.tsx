@@ -3,6 +3,8 @@ import { Button, Popover } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+// components
+import TagForm from '../TagForm';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -58,7 +60,7 @@ const NewTagButton: React.FC = () => {
           horizontal: 'center',
         }}
       >
-        
+        <TagForm tag={undefined}/>
       </Popover>
     </div>
   );

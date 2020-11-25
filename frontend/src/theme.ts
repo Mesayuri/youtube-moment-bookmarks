@@ -1,4 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import {
+  grey, brown, orange, yellow, green, blue, purple, pink, red
+} from '@material-ui/core/colors';
 
 declare module '@material-ui/core/styles/createMuiTheme' {
   interface ThemeOptions {
@@ -9,10 +12,10 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 export const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#ff6633',
+      main: purple[500],
     },
     secondary: {
-      main: '#556cd6',
+      main: green[500],
     },
     text: {
       primary: '#424242',
@@ -22,3 +25,18 @@ export const theme = createMuiTheme({
     },
   },
 });
+
+export const tagShade = 100;
+
+export const tagColors: { [key: string]: string; } = {
+  'default': grey[100],
+  'grey': grey[400],
+  'brown': brown[tagShade],
+  'orange': orange[tagShade],
+  'yellow': yellow[tagShade],
+  'green': green[tagShade],
+  'blue': blue[tagShade],
+  'purple': purple[tagShade],
+  'pink': pink[tagShade],
+  'red': red[tagShade],
+};

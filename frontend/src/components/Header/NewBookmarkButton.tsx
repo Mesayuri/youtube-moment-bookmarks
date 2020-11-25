@@ -3,6 +3,8 @@ import { Button, Popover } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+// components
+import BookmarkForm from '../BookmarkForm';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -58,7 +60,7 @@ const NewBookmarkButton: React.FC = () => {
           horizontal: 'center',
         }}
       >
-        
+        <BookmarkForm bookmark={undefined} />
       </Popover>
     </div>
   );

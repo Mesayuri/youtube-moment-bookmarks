@@ -5,8 +5,10 @@ type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 
 type Props = {
   availableTags: Tag[],
+  selectedTagIdList: number[],
 };
 
-export const AvailableTagsContext = createContext<Props>({
+export const TagContext = createContext<Props>({
   availableTags: [],
+  selectedTagIdList: [],
 });

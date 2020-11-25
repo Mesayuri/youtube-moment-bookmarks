@@ -54,7 +54,6 @@ const EmbeddedVideo: React.FC<Props> = ({
           className={classes.iframe}
           id='embedded-YouTube'
           videoId={playlist[playingBookmarkIndex].videoId}
-          // opts={opts}
           opts={{
             playerVars: {
               autoplay: autoplay,
@@ -67,7 +66,7 @@ const EmbeddedVideo: React.FC<Props> = ({
           }}
           onEnd={onEnd}
         />
-        : <Typography>There is no bookmarks.</Typography>
+        : <Typography variant='h6'>There is no bookmarks.</Typography>
       }
     </div>
   );
