@@ -17,8 +17,8 @@ RUN cargo build --release --offline
 
 FROM rust:1-buster
 
-COPY --from=builder /code/target/release/rust_webapp /usr/bin/rust_webapp
+COPY --from=builder /code/target/release/backend /usr/bin/backend
 
-EXPOSE 5000
+EXPOSE 8000
 
-ENTRYPOINT [ "/usr/bin/rust_webapp" ]
+ENTRYPOINT [ "/usr/bin/backend" ]
