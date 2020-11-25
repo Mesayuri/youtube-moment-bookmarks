@@ -45,16 +45,6 @@ const EmbeddedVideo: React.FC<Props> = ({
   );
 
   const rel: 0 | 1 | undefined = 0;
-  const opts = {
-    playerVars: {
-      autoplay: autoplay,
-      start: playlist[playingBookmarkIndex].startTime,
-      end: playlist[playingBookmarkIndex].endTime,
-      rel: rel,
-      width: 560,
-      height: 315,
-    },
-  };
 
   return (
     <div className={classes.root}>
@@ -64,7 +54,17 @@ const EmbeddedVideo: React.FC<Props> = ({
           className={classes.iframe}
           id='embedded-YouTube'
           videoId={playlist[playingBookmarkIndex].videoId}
-          opts={opts}
+          // opts={opts}
+          opts={{
+            playerVars: {
+              autoplay: autoplay,
+              start: playlist[playingBookmarkIndex].startTime,
+              end: playlist[playingBookmarkIndex].endTime,
+              rel: rel,
+              // width: 560,
+              // height: 315,
+            },
+          }}
           onEnd={onEnd}
         />
         : <Typography>There is no bookmarks.</Typography>
