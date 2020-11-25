@@ -21,7 +21,6 @@ import { convertTime2Str, filterTags } from '../../utils';
 import { tagColors } from '../../theme';
 
 const thumbnailWidth = 6;
-const listItemRatio = 0.5;
 const thumbnailUrl = 'https://img.youtube.com/vi';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -31,11 +30,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     marginRight: theme.spacing(2),
     marginLeft: theme.spacing(1),
   },
-  listItem: {
-    width: `${listItemRatio * 100}%`,
-  },
   tagChip: {
-    margin: 2,
+    margin: 1,
   },
 }));
 
@@ -112,16 +108,19 @@ const FixedPlaylist: React.FC<Props> = ({
               </div>
             }
             secondary={
-              filterTags(availableTags, bookmark.tagIdList).map(
-                tag => (
-                  <Chip
-                    className={classes.tagChip}
-                    label={tag.tagName}
-                    style={{ backgroundColor: tagColors[tag.color] }}
-                    size='small'
-                  />
-                )
-              )
+              <div>
+                {filterTags(availableTags, bookmark.tagIdList).map(
+                  tag => (
+                    <Chip
+                      className={classes.tagChip}
+                      label={tag.tagName}
+                      style={{ backgroundColor: tagColors[tag.color] }}
+                      size='small'
+                    />
+                  )
+                )}
+                {bookmark.notes}
+              </div>
             }
           />
           <ListItemSecondaryAction
