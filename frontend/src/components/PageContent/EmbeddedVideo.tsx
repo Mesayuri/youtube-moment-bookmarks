@@ -1,4 +1,5 @@
 import React, { useContext, useCallback } from 'react';
+import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import YouTube from 'react-youtube';
 // contexts
@@ -57,13 +58,17 @@ const EmbeddedVideo: React.FC<Props> = ({
 
   return (
     <div className={classes.root}>
-      <YouTube
-        className={classes.iframe}
-        id='embedded-YouTube'
-        videoId={playlist[playingBookmarkIndex].videoId}
-        opts={opts}
-        onEnd={onEnd}
-      />
+      {
+        playlist.length > 0
+        ? <YouTube
+          className={classes.iframe}
+          id='embedded-YouTube'
+          videoId={playlist[playingBookmarkIndex].videoId}
+          opts={opts}
+          onEnd={onEnd}
+        />
+        : <Typography>There is no bookmarks.</Typography>
+      }
     </div>
   );
 };

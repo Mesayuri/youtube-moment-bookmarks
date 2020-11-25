@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const backend_url = process.env.BACKEND_URL || 'localhost:8080';
+const backend_url = process.env.BACKEND_URL || 'http://localhost:8000';
 
 export type Tag = {
   id: number,

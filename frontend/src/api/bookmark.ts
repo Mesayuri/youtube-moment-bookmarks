@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const backend_url = process.env.BACKEND_URL || 'localhost:8080';
+// TODO: process.env.BACKEND_URL is undefined
+const backend_url = process.env.BACKEND_URL || 'http://localhost:8000';
 
 export type Bookmark = {
   id: number,
