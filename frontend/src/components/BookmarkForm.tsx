@@ -73,6 +73,7 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
     setStartTime('');
     setEndTime('');
     setTitle('');
+    setNotes('');
   };
 
   const validate = useCallback(
