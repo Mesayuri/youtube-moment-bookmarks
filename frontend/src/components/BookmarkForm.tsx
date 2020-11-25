@@ -40,7 +40,7 @@ type Props = {
   bookmark: Bookmark | undefined,
 };
 
-const BookmarkForm: React.FC<Props> = ({bookmark}) => {
+const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
   const classes = useStyles();
 
   const { availableTags, selectedTagIdList } = useContext(TagContext);
@@ -62,7 +62,7 @@ const BookmarkForm: React.FC<Props> = ({bookmark}) => {
     bookmark === undefined ? '' : bookmark.notes
   );
   const [tagIdList, setTagIdList] = useState<number[]>(
-    bookmark === undefined ? [1] : bookmark.tagIdList
+    bookmark === undefined ? [] : bookmark.tagIdList
   );
   const [videoIdIsValid, setVideoIdIsValid] = useState(true);
   const [startTimeIsValid, setStartTimeIsValid] = useState(true);
@@ -233,7 +233,8 @@ const BookmarkForm: React.FC<Props> = ({bookmark}) => {
         tags={availableTags}
         selectedTagIdList={tagIdList}
         setSelectedTagIdList={setTagIdList}
-      ></TagSelector>
+        onClose={() => {}}
+      />
       <div>
         <TextField
           className={classes.commentFiled}

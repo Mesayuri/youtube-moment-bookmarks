@@ -66,21 +66,21 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <TagContext.Provider
-          value={{ availableTags, selectedTagIdList }}
+          value={{ availableTags, selectedTagIdList, setSelectedTagIdList }}
         >
         <AlertContext.Provider
           value={{ alertInfo, setAlertInfo }}
+        >
+        <LoadContext.Provider
+          value={{ loadPlaylist, loadAvailableTags }}
         >
           <Header />
           <PlaylistContext.Provider
             value={{ playlist }}
           >
-          <LoadContext.Provider
-            value={{ loadPlaylist, loadAvailableTags }}
-          >
             <PageContent loading={loading}/>
-          </LoadContext.Provider>
           </PlaylistContext.Provider>
+          </LoadContext.Provider>
           <SnackBars />
         </AlertContext.Provider>
         </TagContext.Provider>

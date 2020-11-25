@@ -1,6 +1,6 @@
 CREATE TABLE bookmarks (
     id SERIAL PRIMARY KEY,
-    user_id VARCHAR NOT NULL UNIQUE,
+    user_id VARCHAR NOT NULL,
     video_id VARCHAR NOT NULL,
     start_time INT NOT NULL,
     end_time INT NOT NULL,

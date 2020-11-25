@@ -1,9 +1,15 @@
-import React, { useContext, useRef, useEffect, useCallback, memo } from 'react';
+import React, {
+  useContext, useState, useRef, useEffect, useCallback, memo
+} from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  ListItem, Typography, CardMedia, ListItemText, Link, Chip
+  ListItem, Typography, CardMedia, ListItemText, Link, Chip,
+  ListItemSecondaryAction, IconButton, Dialog
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import { FixedSizeList, areEqual, ListChildComponentProps } from 'react-window';
+// components
+import BookmarkForm from '../BookmarkForm';
 // types
 import { Bookmark } from '../../api/bookmark';
 // contexts
@@ -48,6 +54,9 @@ const FixedPlaylist: React.FC<Props> = ({
 
   const { playlist } = useContext(PlaylistContext);
   const { availableTags } = useContext(TagContext);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingBookmark, setEditingBookmark] = useState<Bookmark | undefined>();
 
   const handleClickItem = useCallback(
     (index: number) => {
@@ -115,6 +124,16 @@ const FixedPlaylist: React.FC<Props> = ({
               )
             }
           />
+          <ListItemSecondaryAction
+            onClick={() => {
+              setEditingBookmark(bookmark);
+              setDialogOpen(true);
+            }}
+          >
+            <IconButton edge='end' aria-label='edit'>
+              <EditIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
         </ListItem>
       );
     },
@@ -122,6 +141,7 @@ const FixedPlaylist: React.FC<Props> = ({
   );
 
   return (
+    <>
       <FixedSizeList
         height={400}
         width={'100%'}
@@ -134,6 +154,16 @@ const FixedPlaylist: React.FC<Props> = ({
       >
         {renderListItem}
       </FixedSizeList>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          setEditingBookmark(undefined);
+        }}
+      >
+        <BookmarkForm bookmark={editingBookmark}/>
+      </Dialog>
+    </>
   );
 };
 

@@ -60,7 +60,7 @@ export const sendBookmarkUpdate = async (bookmark: Bookmark) => {
     body: JSON.stringify(bookmark),
   };
 
-  const endpoint = `${backend_url}/create/bookmark`;
+  const endpoint = `${backend_url}/update/bookmark`;
   const response = await fetch(endpoint, requestOptions);
   const data = await response.json();
 

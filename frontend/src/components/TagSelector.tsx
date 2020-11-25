@@ -18,6 +18,7 @@ import TagForm from './TagForm';
 const useStyles = makeStyles((theme: Theme) => createStyles({
   tagSelection: {
     margin: theme.spacing(1),
+    minWidth: '200px',
   },
   tagChips: {
     minWidth: '200px',
@@ -35,12 +36,14 @@ type Props = {
   tags: Tag[],
   selectedTagIdList: number[],
   setSelectedTagIdList: SetState<number[]>,
+  onClose: () => void,
 };
 
 const TagSelector: React.FC<Props> = ({
   tags,
   selectedTagIdList,
   setSelectedTagIdList,
+  onClose,
 }) => {
   const classes = useStyles();
 
@@ -57,6 +60,7 @@ const TagSelector: React.FC<Props> = ({
           multiple
           value={selectedTagIdList}
           onChange={e => setSelectedTagIdList(e.target.value as number[])}
+          onClose={onClose}
           input={<Input />}
           renderValue={(selected) => (
             <div className={classes.tagChips}>
