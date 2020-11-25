@@ -18,8 +18,6 @@ export const validateTimeFormat = (str: string): boolean => {
   // e.g. 177s
   const secPattern = /\d{1,5}s$/g;
 
-  // const hmsResult = str.match(hmsPattern);
-  // const secResult = str.match(secPattern);
   const hmsResult = hmsPattern.test(str);
   const secResult = secPattern.test(str);
   const result = hmsResult || secResult;
