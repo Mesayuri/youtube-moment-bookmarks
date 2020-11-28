@@ -80,6 +80,26 @@ pub async fn update_bookmark(
     }
 }
 
+#[post("/delete/bookmark")]
+pub async fn delete_bookmark(
+    pool: web::Data<DbPool>, info: web::Json<BookmarkJsonBody>
+) -> impl Responder {
+    let user_id = String::from("0");
+
+    let conn = pool.get()
+        .expect("Failed to get DB connection from pool.");
+    let result = Bookmark::delete(
+        &conn,
+        info.id.clone(),
+        user_id,
+    );
+
+    match result {
+        Ok(_) => web::Json(Response { result: true }),
+        Err(_) => web::Json(Response { result: false }),
+    }
+}
+
 #[get("/tag/{tag_id_list}")]
 pub async fn get_bookmarks_from_tags(
     pool: web::Data<DbPool>, web::Path(tag_id_list): web::Path<String>

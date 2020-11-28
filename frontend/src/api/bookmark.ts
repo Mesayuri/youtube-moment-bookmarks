@@ -66,3 +66,19 @@ export const sendBookmarkUpdate = async (bookmark: Bookmark) => {
 
   return data.result;
 };
+
+export const sendBookmarkDelete = async (bookmark: Bookmark) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(bookmark),
+  };
+
+  const endpoint = `${backend_url}/delete/bookmark`;
+  const response = await fetch(endpoint, requestOptions);
+  const data = await response.json();
+
+  return data.result;
+};

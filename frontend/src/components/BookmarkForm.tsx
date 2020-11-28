@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  TextField, Button
+  TextField, Button, Dialog, Typography
 } from '@material-ui/core';
 // utils
 import {
@@ -9,7 +9,10 @@ import {
   trimVideoId
 } from '../utils';
 // API
-import { Bookmark, NewBookmark, sendNewBookmark, sendBookmarkUpdate } from '../api/bookmark';
+import {
+  Bookmark, NewBookmark,
+  sendNewBookmark, sendBookmarkUpdate, sendBookmarkDelete
+} from '../api/bookmark';
 // contexts
 import { TagContext } from '../contexts/tag';
 import { LoadContext } from '../contexts/load';
@@ -34,6 +37,19 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   addButton: {
     margin: theme.spacing(2),
   },
+  deleteButton: {
+    margin: theme.spacing(2),
+    borderColor: theme.palette.error.main,
+    color: theme.palette.error.main,
+  },
+  deleteDialog: {
+    padding: '30px 30px',
+  },
+  deleteDialogButton: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  },
 }));
 
 type Props = {
@@ -46,6 +62,7 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
   const { availableTags, selectedTagIdList } = useContext(TagContext);
   const { setAlertInfo } = useContext(AlertContext);
   const { loadPlaylist } = useContext(LoadContext);
+
   const [videoId, setVideoId] = useState(
     bookmark === undefined ? '' : bookmark.videoId
   );
@@ -68,6 +85,7 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
   const [startTimeIsValid, setStartTimeIsValid] = useState(true);
   const [endTimeIsValid, setEndTimeIsValid] = useState(true);
   const [titleIsValid, setTitleIsValid] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const clearFields = () => {
     setStartTime('');
@@ -192,6 +210,54 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
     ],
   );
 
+  const handleClickDelete = useCallback(
+    async () => {
+      if (bookmark === undefined) {
+        return;
+      }
+
+      const editedBookmark: Bookmark = {
+        id: bookmark.id,
+        videoId,
+        startTime: convertStr2Time(startTime),
+        endTime: convertStr2Time(endTime),
+        title,
+        notes,
+        tagIdList
+      };
+      const sendResult: boolean = await sendBookmarkDelete(editedBookmark);
+      
+      switch (sendResult) {
+        case true:
+          loadPlaylist(selectedTagIdList);
+          setAlertInfo({
+            open: true,
+            type: AlertType.Success,
+            message: `Bookmark "${title}" is deleted`
+          });
+          break;
+        case false:
+          setAlertInfo({
+            open: true,
+            type: AlertType.Error,
+            message: `Bookmark "${title}" is failed to delete`
+          });
+          break;
+        default:
+          setAlertInfo({
+            open: true,
+            type: AlertType.Warning,
+            message: 'System Message: Unexpected open'
+          });
+          break;
+      }
+    },
+    [
+      bookmark, endTime, loadPlaylist, notes, selectedTagIdList, setAlertInfo,
+      startTime, tagIdList, title, videoId
+    ],
+  );
+
   return (
     <div className={classes.root}>
       <TextField
@@ -256,7 +322,50 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
         variant='outlined'
         color='primary'
         onClick={bookmark === undefined ? handleClickNew : handleClickEdit}
-      >Save</Button>
+      >
+        Save
+      </Button>
+      {
+        bookmark !== undefined
+        ? (
+          <>
+            <Button
+              className={classes.deleteButton}
+              id='ask-delete-button'
+              variant='outlined'
+              onClick={() => setDeleteDialogOpen(true)}
+            >
+              Delete
+            </Button>
+            <Dialog
+              id='delete-dialog'
+              open={deleteDialogOpen}
+              onClose={() => setDeleteDialogOpen(false)}
+            >
+              <div className={classes.deleteDialog}>
+                <Typography>Are you sure you want to delete?</Typography>
+                <Button
+                  className={classes.deleteDialogButton}
+                  id='delete-button'
+                  color='primary'
+                  variant='outlined'
+                  onClick={handleClickDelete}
+                >
+                  Ok
+                </Button>
+                <Button
+                  className={classes.deleteDialogButton}
+                  variant='outlined'
+                  onClick={() => setDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </Dialog>
+          </>
+        )
+        : null
+      }
     </div>
   );
 };

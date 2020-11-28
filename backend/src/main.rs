@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
                     .service(create_tag)
                     .service(update_bookmark)
                     .service(update_tag)
+                    .service(delete_bookmark)
                     .service(get_tags)
                     .service(get_bookmarks_from_tags)
                     .service(get_all_bookmarks)
