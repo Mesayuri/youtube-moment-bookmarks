@@ -93,7 +93,7 @@ const FixedPlaylist: React.FC<Props> = ({
           <CardMedia
             className={classes.thumbnail}
             component='img'
-            image={`${thumbnailUrl}/${bookmark.videoId}/mqdefault.jpg`}
+            image={`${thumbnailUrl}/${bookmark.videoId}/default.jpg`}
           />
           <ListItemText
             key={bookmark.id}
