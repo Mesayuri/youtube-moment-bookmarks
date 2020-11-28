@@ -45,7 +45,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   deleteDialog: {
     padding: '30px 30px',
   },
-  deleteDialogButton: {
+  deleteDialogOkButton: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    borderColor: theme.palette.error.main,
+    color: theme.palette.error.main,
+  },
+  deleteDialogCancelButton: {
     marginRight: theme.spacing(2),
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
@@ -345,16 +352,15 @@ const BookmarkForm: React.FC<Props> = ({ bookmark }) => {
               <div className={classes.deleteDialog}>
                 <Typography>Are you sure you want to delete?</Typography>
                 <Button
-                  className={classes.deleteDialogButton}
+                  className={classes.deleteDialogOkButton}
                   id='delete-button'
-                  color='primary'
                   variant='outlined'
                   onClick={handleClickDelete}
                 >
                   Ok
                 </Button>
                 <Button
-                  className={classes.deleteDialogButton}
+                  className={classes.deleteDialogCancelButton}
                   variant='outlined'
                   onClick={() => setDeleteDialogOpen(false)}
                 >
